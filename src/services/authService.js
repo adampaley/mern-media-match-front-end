@@ -1,7 +1,5 @@
-// env variables
-// const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/auth`
+const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/auth`
 
-// service functions and exports
 export const signUp = async (formData) => {
   try {
     const res = await fetch(`${BASE_URL}/sign-up`, {
@@ -26,7 +24,7 @@ export const signUp = async (formData) => {
     console.log(err)
     throw new Error(err)
   }
-}
+};
 
 export const signIn = async (formData) => {
   try {

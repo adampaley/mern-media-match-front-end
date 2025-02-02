@@ -1,5 +1,5 @@
-// imports
 import { useContext, useState, useEffect } from 'react'
+// import { useNavigate } from 'react-router'
 import { showGame } from '../../services/apiService'
 import { UserContext } from '../../contexts/UserContext'
 import { showSettings } from '../../services/settingsService'
@@ -8,10 +8,10 @@ import CardDetails from "../CardDetails/CardDetails"
 import SettingsDrawer from '../SettingsDrawer/SettingsDrawer'
 
 
-// component
-const UserHomePage = ({ handleCardClick, handleCloseModal, isDrawerOpen, setIsDrawerOpen, isModalOpen, setIsModalOpen, selectedGame }) => {
+const UserHomePage = (props) => {
     // hooks
     const { user } = useContext(UserContext)
+    // const navigate = useNavigate()
 
     // state variable
     const [settings, setSettings] = useState({
@@ -20,9 +20,10 @@ const UserHomePage = ({ handleCardClick, handleCloseModal, isDrawerOpen, setIsDr
     })
     const [gameData, setGameData] = useState([])
     const [isSettings, setIsSettings] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [selectedGame, setSelectedGame] = useState(null)
     const [reset, setReset] = useState(false)
 
-    // use effects
     useEffect(() => {
         // if (user) { navigate(`/users/${user._id}`) }
     
@@ -74,6 +75,15 @@ const UserHomePage = ({ handleCardClick, handleCloseModal, isDrawerOpen, setIsDr
     }
 
     // handler functions 
+    const handleCardClick = (game) => {
+        setSelectedGame(game)
+        setIsModalOpen(!isModalOpen)
+    }
+
+    const handleCloseModal = () => {
+        setIsModalOpen(!isModalOpen)
+        setSelectedGame(null)
+    }
 
     // prevent background scrolling
     if (isModalOpen) {
@@ -81,35 +91,23 @@ const UserHomePage = ({ handleCardClick, handleCloseModal, isDrawerOpen, setIsDr
     } else {
         document.body.classList.remove('active-modal')
     }
-
-    // return
     return (
         <>
             <div className="card-container">
                 <CardComponent gameData={gameData} onCardClick={handleCardClick} />
             </div>
-            {isModalOpen && (<CardDetails
-              gameData={gameData} 
-              selectedGame={selectedGame} 
-              onClose={handleCloseModal} 
-              isModalOpen={isModalOpen} 
-              setIsModalOpen={setIsModalOpen} 
-              reset={reset}
-              setReset={setReset}
-              setGameData={setGameData}   
-            />)}
+            {isModalOpen && (<CardDetails gameData={gameData} selectedGame={selectedGame} onClose={handleCloseModal} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} setGameData={setGameData} setReset={setReset} reset={reset} />)}
             <button onClick={fetchData}>Fetch Data</button>
             <SettingsDrawer
-                isSettings={isSettings}
-                setIsSettings={setIsSettings}
-                isDrawerOpen={isDrawerOpen}
-                setIsDrawerOpen={setIsDrawerOpen}
                 settings={settings}
                 setSettings={setSettings}
+                isSettings={isSettings}
+                setIsSettings={setIsSettings}
+                isDrawerOpen={props.isDrawerOpen}
+                setIsDrawerOpen={props.setIsDrawerOpen}
             />
         </>
     )
 }
 
-// export
 export default UserHomePage

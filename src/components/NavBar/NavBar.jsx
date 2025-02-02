@@ -1,16 +1,12 @@
-// imports
-import './NavBar.css'
 import { useContext } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { UserContext } from '../../contexts/UserContext'
+import './NavBar.css'
 
-// component
 const NavBar = ({ setIsDrawerOpen }) => {
-  // hooks
   const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
 
-  // handler functions
   const handleSignOut = () => {
     localStorage.removeItem('token')
     setUser(null)
@@ -20,8 +16,7 @@ const NavBar = ({ setIsDrawerOpen }) => {
     setIsDrawerOpen(true)
     navigate('/settings')
   }
-  
-  // return
+
   return (
     <nav className='navbar'>
       {user ? (
@@ -43,5 +38,4 @@ const NavBar = ({ setIsDrawerOpen }) => {
   )
 }
 
-// export
 export default NavBar

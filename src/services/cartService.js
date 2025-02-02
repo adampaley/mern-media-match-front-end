@@ -1,7 +1,8 @@
-// env variables
+
+
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/carts`
 
-// service functions and exports
+
 export const addToCart = async (userId, gameData) => {
     try {
         const res = await fetch(BASE_URL, {

@@ -1,9 +1,7 @@
-// env variables
 const API_KEY = import.meta.env.VITE_API_KEY
 const API_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/api/games`
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID
 
-// service functions and exports
 export const showGame = async (genres) => {
     try {
         const headers = {

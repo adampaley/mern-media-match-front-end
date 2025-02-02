@@ -3,16 +3,11 @@ import './CardDetails.css'
 import { addToCart } from '../../services/cartService'
 import { useContext } from "react"
 import { UserContext } from "../../contexts/UserContext"
-import { useLocation } from 'react-router'
 const media = import.meta.glob('../../assets/*.png')
 
-// component
 const CardDetails = ({ gameData, selectedGame, onClose, setGameData, setIsModalOpen, setReset, reset }) => {
-  // hooks
   const { user } = useContext(UserContext)
-  const location = useLocation()
 
-  // component logic
   if (!selectedGame) return null
 
   // dynamically render icon
@@ -23,9 +18,10 @@ const CardDetails = ({ gameData, selectedGame, onClose, setGameData, setIsModalO
       break
     }
   }
-  // handler function
   const handleAddToCart = async (buttonName) => {
+    // e.preventDefault()
     try {
+
       if (buttonName === 'add') await addToCart(user._id, selectedGame)
       setGameData((prev) => prev.filter((game) => game.id !== selectedGame.id))
       setTimeout(setIsModalOpen(false), "1500")
@@ -37,7 +33,6 @@ const CardDetails = ({ gameData, selectedGame, onClose, setGameData, setIsModalO
     }
   }
 
-  // return
   return (
       <div className="modal-overlay">
         <div className="card-details-modal">
@@ -93,28 +88,13 @@ const CardDetails = ({ gameData, selectedGame, onClose, setGameData, setIsModalO
               : null
             }
           </div>
-          { 
-            location.pathname === "/library" 
-            ? <div className="modal-buttons">
-                <button className="remove-btn" >Remove from Library</button>
-                <button className="add-to-cart-btn">Review</button>
-              </div>
-
-                : location.pathname === "/cart" 
-                ? <div className="modal-buttons">
-                    <button className="remove-btn" >Remove from Cart</button>
-                    <button className="add-to-cart-btn">Purchase</button>
-                  </div>
-
-                  : <div className="modal-buttons">
-                      <button className="remove-btn" onClick={() => handleAddToCart('remove')}>Remove</button>
-                      <button className="add-to-cart-btn" onClick={() => handleAddToCart('add')}>Add to Cart</button>
-                    </div>
-          }
+          <div className="modal-buttons">
+            <button className="remove-btn" onClick={() => handleAddToCart('remove')}>Remove</button>
+            <button className="add-to-cart-btn" onClick={() => handleAddToCart('add')}>Add to Cart</button>
+          </div>
         </div>
       </div>
   )
 }
 
-// export
-export default CardDetails
+export default CardDetails;

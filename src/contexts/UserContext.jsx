@@ -1,21 +1,17 @@
-// imports
-import { createContext, useState } from "react"
+import { createContext, useState } from "react";
 
-// hooks
-const UserContext = createContext()
+const UserContext = createContext();
 
-// utility functions
 const getUserFromToken = () => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token');
 
-  if (!token) return null
+  if (!token) return null;
 
-  return JSON.parse(atob(token.split('.')[1])).payload
-}
+  return JSON.parse(atob(token.split('.')[1])).payload;
+};
 
-// context
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(getUserFromToken)
+  const [user, setUser] = useState(getUserFromToken);
 
   const value = { user, setUser }
 
@@ -23,8 +19,7 @@ const UserProvider = ({ children }) => {
     <UserContext.Provider value={value}>
       {children}
     </UserContext.Provider>
-  )
-}
+  );
+};
 
-// export
 export { UserProvider, UserContext }
